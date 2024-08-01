@@ -60,12 +60,21 @@ CREATE TABLE Suscripciones (
     Descripcion TEXT NOT NULL
 );
 
+--Tabla de Medios de pago
+CREATE TABLE MediosPago(
+	MedioPagoID INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	NombreMedioPago VARCHAR(100) NOT NULL,
+	Descripcion VARCHAR(100) NOT NULL
+);
+
 -- Tabla de suscripciones de usuarios
 CREATE TABLE SuscripcionesUsuarios (
     UsuarioID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     SuscripcionID INT NOT NULL,
     FechaInicio DATE NOT NULL,
     FechaFin DATE NOT NULL,
+	MedioPagoID INT NOT NULL,
+	FOREIGN KEY (MedioPagoID) REFERENCES MediosPago(MedioPagoID),
     FOREIGN KEY (UsuarioID) REFERENCES Usuarios(UsuarioID),
     FOREIGN KEY (SuscripcionID) REFERENCES Suscripciones(SuscripcionID)
 );
