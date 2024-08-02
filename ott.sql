@@ -147,6 +147,13 @@ CREATE TABLE Reproducciones (
     FOREIGN KEY (EpisodioID) REFERENCES Episodios(EpisodioID)
 );
 
+
+-- Tabla intermedia entre paises y peliculas
+CREATE TABLE Pais_Peliculas(
+	PaisID INT NOT NULL,
+	PeliculaID INT NOT NULL
+);
+
 -- Insercion de los datos de las tablas
 INSERT INTO Paises (NombrePais, Descripcion) VALUES
 ('Estados Unidos', 'País de América del Norte'),
@@ -260,6 +267,16 @@ INSERT INTO Reproducciones (UsuarioID, PeliculaID, EpisodioID, FechaReproduccion
 (3, 3, 1, '2024-07-10', 195),
 (4, 1, 4, '2024-07-15', 62);
 
+-- Insercion de datos en la tabla de pais y peliculas
+INSERT INTO Pais_Peliculas (PaisId, PeliculaID) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(2, 1),
+(3, 1),
+(4, 1);
+
 -- CRUD
 -- CREATE
 INSERT INTO Usuarios (Nombre, Apellido, Email, Contraseña, FechaNacimiento, FechaRegistro, PaisID)
@@ -297,3 +314,50 @@ FROM Usuarios U
 JOIN Paises P ON U.PaisID = P.PaisID
 GROUP BY P.NombrePais
 HAVING COUNT(U.UsuarioID) > 1;
+
+-- Cursor para recorrer la tabla Peliculas 
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS pelicula_procedure//
+CREATE PROCEDURE pelicula_procedure()
+BEGIN
+
+  DECLARE var_id INTEGER;
+  DECLARE var_titulo VARCHAR(255);
+  DECLARE var_descripcion VARCHAR(255);
+  DECLARE var_duracion INTEGER DEFAULT 0;
+
+  DECLARE cursor1 CURSOR FOR SELECT PeliculaID, Titulo, Descripcion, Duracion FROM Peliculas;
+
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET var_duracion = 1;
+
+  OPEN cursor1;
+
+  bucle: LOOP
+
+    FETCH cursor1 INTO var_id, var_titulo, var_duracion, var_duracion;
+
+    IF var_duracion = 1 THEN
+      LEAVE bucle;
+    END IF;
+
+    UPDATE peliculas SET Duracion = var_duracion + 10 WHERE PeliculaID = var_id;
+
+    SELECT
+      var_titulo AS  'titulo',
+      var_duracion AS 'Anterior',
+      Duracion AS 'Incremento'
+      FROM Peliculas WHERE PeliculaID = var_id;
+
+
+  END LOOP bucle;
+  CLOSE cursor1;
+
+END//
+DELIMITER ;
+
+-- Trigger para insertar en la tabla paises despues de insertar en usuarios
+CREATE TRIGGER `disparador_usuarios` AFTER INSERT ON `usuarios` FOR EACH ROW INSERT INTO Paises (NombrePais, Descripcion) VALUES ('Estados Unidos', 'País de América del Norte');
+
+-- Consulta de geolocalizacion
+SELECT * FROM usuarios where 
