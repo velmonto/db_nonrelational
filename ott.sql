@@ -152,7 +152,14 @@ INSERT INTO Paises (NombrePais, Descripcion) VALUES
 ('Estados Unidos', 'País de América del Norte'),
 ('México', 'País de América del Norte'),
 ('España', 'País de Europa Occidental'),
-('Colombia', 'País de América del Sur');
+('Colombia', 'País de América del Sur'),
+('Argentina', 'País de América del Sur'),
+('Brasil', 'País de América del Sur'),
+('Chile', 'País de América del Sur'),
+('Perú', 'País de América del Sur'),
+('Francia', 'País de Europa Occidental'),
+('Italia', 'País de Europa Occidental'),
+('Alemania', 'País de Europa Central');
 
 INSERT INTO Usuarios (Nombre, Apellido, Email, Contraseña, FechaNacimiento, FechaRegistro, PaisID) VALUES
 ('Andres', 'Tamayo', 'andres.tamayo@gmail.com', 'contraseña123', '2000-08-01', '2024-01-01', 1),
@@ -166,7 +173,14 @@ INSERT INTO Usuarios (Nombre, Apellido, Email, Contraseña, FechaNacimiento, Fec
 ('Sofía', 'Hernández', 'sofia.hernandez@gmail.com', 'contraseña123', '1995-12-05', '2024-07-20', 4),
 ('Valeria', 'Gómez', 'valeria.gomez@gmail.com', 'contraseña123', '1993-07-22', '2024-08-01', 4), 
 ('Andrés', 'Santos', 'andres.santos@gmail.com', 'contraseña123', '1989-04-18', '2024-08-05', 4), 
-('Camila', 'Castro', 'camila.castro@gmail.com', 'contraseña123', '1998-10-09', '2024-08-10', 2); 
+('Camila', 'Castro', 'camila.castro@gmail.com', 'contraseña123', '1998-10-09', '2024-08-10', 2),
+('Maria', 'Lopez', 'maria.lopez@gmail.com', 'contraseña123', '1991-02-11', '2024-05-01', 11), 
+('Jose', 'Fernandez', 'jose.fernandez@gmail.com', 'contraseña123', '1983-11-19', '2024-06-01', 6), 
+('Lucia', 'Diaz', 'lucia.diaz@gmail.com', 'contraseña123', '1987-04-17', '2024-07-01', 7), 
+('Pablo', 'Reyes', 'pablo.reyes@gmail.com', 'contraseña123', '1990-01-09', '2024-07-15', 7), 
+('Carla', 'Sanchez', 'carla.sanchez@gmail.com', 'contraseña123', '1995-09-21', '2024-07-20', 9), 
+('David', 'Mora', 'david.mora@gmail.com', 'contraseña123', '1988-12-12', '2024-08-01', 10),
+('Santiago', 'Perez', 'santiago.perez@gmail.com', 'contraseña123', '1992-08-08', '2024-08-05', 11); 
 
 INSERT INTO Administradores (Nombre, Apellido, Email, Contraseña, FechaRegistro) VALUES
 ('Carlos', 'Gómez', 'carlos.gomez@gmail.com', 'adminpass123', '2024-01-01'),
@@ -201,7 +215,14 @@ INSERT INTO SuscripcionesUsuarios (UsuarioID, SuscripcionID, FechaInicio, FechaF
 (14, 3, '2024-07-10', '2025-07-10', 2),
 (15, 1, '2024-07-15', '2024-08-15', 3), 
 (16, 2, '2024-07-20', '2025-01-20', 1), 
-(17, 1, '2024-07-25', '2024-08-25', 2);
+(17, 1, '2024-07-25', '2024-08-25', 2),
+(31, 2, '2024-08-01', '2025-02-01', 1),
+(32, 3, '2024-08-10', '2025-08-10', 2), 
+(33, 1, '2024-08-15', '2024-09-15', 3), 
+(34, 2, '2024-08-20', '2025-02-20', 1), 
+(35, 3, '2024-08-25', '2025-08-25', 2), 
+(36, 1, '2024-09-01', '2024-10-01', 3), 
+(37, 2, '2024-09-05', '2025-03-05', 1); 
 
 INSERT INTO Categorias (Nombre, Descripcion) VALUES
 ('Acción', 'Películas y series de acción'),
@@ -268,3 +289,11 @@ SELECT M.NombreMedioPago, U.Nombre, U.Apellido
 FROM MediosPago M
 RIGHT JOIN SuscripcionesUsuarios SU ON M.MedioPagoID = SU.MedioPagoID
 RIGHT JOIN Usuarios U ON SU.UsuarioID = U.UsuarioID;
+
+-- HAVING
+-- Numero de usuarios por pais y se filtra con el HAVING paises que tienen mas de un usuario
+SELECT P.NombrePais, COUNT(U.UsuarioID) AS NumeroUsuarios
+FROM Usuarios U
+JOIN Paises P ON U.PaisID = P.PaisID
+GROUP BY P.NombrePais
+HAVING COUNT(U.UsuarioID) > 1;
