@@ -151,7 +151,9 @@ CREATE TABLE Reproducciones (
 -- Tabla intermedia entre paises y peliculas
 CREATE TABLE Pais_Peliculas(
 	PaisID INT NOT NULL,
-	PeliculaID INT NOT NULL
+	PeliculaID INT NOT NULL,
+    FOREIGN KEY (PeliculaID) REFERENCES Peliculas(PeliculaID),
+    FOREIGN KEY (PaisID) REFERENCES Episodios(PaisID)
 );
 
 -- Insercion de los datos de las tablas
