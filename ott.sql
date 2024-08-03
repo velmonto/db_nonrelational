@@ -149,11 +149,13 @@ CREATE TABLE Reproducciones (
 
 
 -- Tabla intermedia entre paises y peliculas
-CREATE TABLE Pais_Peliculas(
+CREATE TABLE Pais_Peliculas_Series(
 	PaisID INT NOT NULL,
-	PeliculaID INT NOT NULL,
+	PeliculaID INT,
+	SerieID INT,
     FOREIGN KEY (PeliculaID) REFERENCES Peliculas(PeliculaID),
-    FOREIGN KEY (PaisID) REFERENCES Episodios(PaisID)
+    FOREIGN KEY (PaisID) REFERENCES Paises(PaisID),
+	FOREIGN KEY (SerieID) REFERENCES Series(SerieID)
 );
 
 -- Insercion de los datos de las tablas
@@ -270,14 +272,14 @@ INSERT INTO Reproducciones (UsuarioID, PeliculaID, EpisodioID, FechaReproduccion
 (4, 1, 4, '2024-07-15', 62);
 
 -- Insercion de datos en la tabla de pais y peliculas
-INSERT INTO Pais_Peliculas (PaisId, PeliculaID) VALUES
-(1, 1),
-(1, 2),
-(1, 3),
-(1, 4),
-(2, 1),
-(3, 1),
-(4, 1);
+INSERT INTO Pais_Peliculas_Series (PaisId, PeliculaID, SerieID) VALUES
+(1, 1, 1),
+(1, 2, NULL),
+(1, 3, NULL),
+(1, 4, NULL),
+(2, 1, 2),
+(3, 1, 2),
+(4, 1, 2);
 
 -- CRUD
 -- CREATE
