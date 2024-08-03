@@ -128,7 +128,7 @@ CREATE TABLE Episodios (
     TemporadaID INT NOT NULL,
     NumeroEpisodio INT NOT NULL,
     Titulo VARCHAR(255) NOT NULL,
-    Descripcion TEXT NOT NULL,
+    Descripcion VARCHAR(255) NOT NULL,
     Duracion INT NOT NULL,
     FechaEstreno DATE NOT NULL,
     FOREIGN KEY (TemporadaID) REFERENCES Temporadas(TemporadaID)
@@ -339,7 +339,7 @@ BEGIN
 
   bucle: LOOP
 
-    FETCH cursor1 INTO var_id, var_titulo, var_duracion, var_duracion;
+    FETCH cursor1 INTO var_id, var_titulo, var_descripcion, var_duracion;
 
     IF var_duracion = 1 THEN
       LEAVE bucle;
