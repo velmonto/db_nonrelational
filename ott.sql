@@ -365,3 +365,5 @@ CREATE TRIGGER `disparador_usuarios` AFTER INSERT ON `usuarios` FOR EACH ROW INS
 
 -- Consulta de geolocalizacion
 SELECT * FROM usuarios where 
+
+select pa.NombrePais, p.Titulo, s.Titulo from pais_peliculas_series pps inner join peliculas p on p.PeliculaID = pps.PeliculaID inner join series s on s.SerieID = pps.SerieID inner join paises pa on pa.PaisID = pps.PaisID where pa.NombrePais = 'Colombia';
